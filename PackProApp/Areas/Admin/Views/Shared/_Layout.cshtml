@@ -1,0 +1,215 @@
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> Localizer
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>PackPRO - @Localizer["Admin Panel"]</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/assets/img/favicon.png" rel="icon">
+    <link href="~/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Nunito:300,400,600,700|Poppins:300,400,500,600,700" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="~/assets/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/assets/vendor/boxicons/css/boxicons.min.css" />
+    <link rel="stylesheet" href="~/assets/vendor/quill/quill.snow.css" />
+    <link rel="stylesheet" href="~/assets/vendor/quill/quill.bubble.css" />
+    <link rel="stylesheet" href="~/assets/vendor/remixicon/remixicon.css" />
+    <link rel="stylesheet" href="~/assets/vendor/simple-datatables/style.css" />
+
+    <!-- Template Main CSS File -->
+    <link href="~/assets/css/style.css" rel="stylesheet">
+
+    <!-- Custom CSS for Sticky Footer -->
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 1rem 0;
+        }
+    </style>
+
+    <!-- View'lerde tanımlanan ek stil dosyalarını buraya dahil ediyoruz -->
+    @RenderSection("Styles", required: false)
+
+</head>
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between">
+            <a class="logo d-flex align-items-center" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                <img src="~/assets/img/logopacpro.png" alt="PackPro Logo">
+                <span class="d-none d-lg-block">@Localizer["PackPro Admin"]</span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+        <!-- Navbar -->
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+                <li class="nav-item me-3">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                </li>
+                <li class="nav-item me-3">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy"]</a>
+                </li>
+                <li class="nav-item">
+                    <!-- Türk bayrağı ile dil seçimi -->
+                    <a href="javascript:void(0)" onclick="changeLanguage('tr-TR')">
+                        <img src="~/assets/img/Turkey.jpg" alt="Türkçe" style="width: 30px; height: 20px;" />
+                    </a>
+                    <!-- İngiliz bayrağı ile dil seçimi -->
+                    <a href="javascript:void(0)" onclick="changeLanguage('en-US')">
+                        <img src="~/assets/img/US.png" alt="English" style="width: 30px; height: 20px;" />
+                    </a>
+                </li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle text-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @(User.Identity.Name.Length > 5 ? User.Identity.Name.Substring(0, 5) : User.Identity.Name)
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Account" asp-action="Profile">@Localizer["My Profile"]</a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item me-3">
+                        <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
+                    </li>
+                }
+            </ul>
+        </nav> <!-- End Navbar -->
+
+    </header><!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-tags"></i>
+                    <span>@Localizer["Dashboard"]</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-heading">Pages</li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="Admin" asp-controller="Category" asp-action="Index">
+                    <i class="bi bi-tags"></i>
+                    <span>@Localizer["Categories"]</span>
+                </a>
+            </li><!-- End Category Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="Admin" asp-controller="Product" asp-action="Index">
+                    <i class="bi bi-box"></i>
+                    <span>@Localizer["Products"]</span>
+                </a>
+            </li><!-- End Product Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="Admin" asp-controller="Customer" asp-action="Index">
+                    <i class="bi bi-people"></i>
+                    <span>@Localizer["Customers"]</span>
+                </a>
+            </li><!-- End Customer Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="Admin" asp-controller="Category" asp-action="ShowCategories">
+                    <i class="bi bi-tags"></i>
+                    <span>@Localizer["Categories & Subcategories"]</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="" asp-controller="Account" asp-action="Logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>@Localizer["Logout"]</span>
+                </a>
+            </li>
+        </ul>
+    </aside><!-- End Sidebar -->
+
+    <main id="main" class="main">
+        <section class="section dashboard">
+            @RenderBody()
+        </section>
+    </main>
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; 2024 - PackProApp - @Localizer["All Rights Reserved"]
+        </div>
+        <div class="credits">
+            @Localizer["Designed by"] <a href="https://bootstrapmade.com/">@Localizer["Team3"]</a>
+        </div>
+    </footer><!-- End Footer -->
+    <!-- JavaScript Libraries -->
+    <script src="~/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="~/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="~/assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/assets/js/main.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- JavaScript Libraries eklendi -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dil değiştirme işlemi -->
+    <script>
+        function changeLanguage(culture) {
+            // Seçilen dili Cookie'ye yaz
+            document.cookie = ".AspNetCore.Culture=c=" + culture + "|uic=" + culture + "; path=/";
+            // Sayfayı yeniden yükle
+            location.reload();
+        }
+    </script>
+
+    @await Component.InvokeAsync("Notyf")
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+﻿
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> Localizer
+@model IPagedList<PackProApp.Areas.Admin.Modelss.CategoryVMs.AdminCategoryListVM>
+@using X.PagedList
+@using X.Web.PagedList
+
+<h1>@Localizer["Categories"]</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="Create">@Localizer["Create New"]</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>@Localizer["Name"]</th>
+            <th>@Localizer["Description"]</th>
+            <th style="width: 200px; text-align: right;">@Localizer["Actions"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var category in Model)
+            {
+                <tr class="category-row">
+                    <td>
+                        <span class="category-name">@category.Name</span>
+
+                        @if (category.SubCategories != null && category.SubCategories.Any())
+                        {
+                            <ul class="subcategories">
+                                @foreach (var subCategory in category.SubCategories)
+                                {
+                                    <li>@subCategory.Name</li>
+                                }
+                            </ul>
+                        }
+                    </td>
+                    <td>@category.Description</td>
+                    <td style="text-align: right;">
+
+                        <style>
+
+                            .btn-details {
+                                background-color: #002366; /* Koyu mavi */
+                                color: white;
+                            }
+
+                            .btn-update {
+                                background-color: #87CEEB; /* Açık mavi */
+                                color: white;
+                            }
+
+                            .btn-delete {
+                                background-color: #FF0000; /* Kırmızı */
+                                color: white;
+                            }
+
+                            .btn {
+                                border: none;
+                                padding: 10px 20px;
+                                text-align: center;
+                                text-decoration: none;
+                                display: inline-block;
+                                margin: 5px;
+                                cursor: pointer;
+                                border-radius: 4px;
+                            }
+
+
+                        </style>
+
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-update btn-sm" asp-action="Update" asp-route-id="@category.Id">@Localizer["Update"]</a>
+                            <a class="btn btn-details btn-sm" asp-action="Details" asp-route-id="@category.Id">@Localizer["Details"]</a>
+                            <a class="btn btn-delete btn-sm" asp-action="Delete" asp-route-id="@category.Id">@Localizer["Delete"]</a>
+                        </div>
+
+
+                       @*  <div class="btn-group" role="group">
+                            <a class="btn btn-secondary btn-sm" asp-action="Update" asp-route-id="@category.Id">@Localizer["Update"]</a>
+                            <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@category.Id">@Localizer["Details"]</a>
+                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@category.Id">@Localizer["Delete"]</a>
+                        </div> *@
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" style="text-align: center;">@Localizer["No categories available."]</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Sayfalama -->
+ <div class="d-flex justify-content-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+{
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+    UlElementClasses = new[] { "pagination" }
+})
+</div> 
+
+@section Styles {
+    <style>
+        /* Alt kategorileri başlangıçta gizle */
+        .subcategories {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 5px;
+            list-style: none;
+            z-index: 10;
+        }
+
+        /* Kategori satırı üzerine hover yapıldığında alt kategorileri göster */
+        .category-row:hover .subcategories {
+            display: block;
+        }
+
+        /* Alt kategoriler için liste stili */
+        .subcategories li {
+            padding: 5px 0;
+        }
+
+        /* Category için pozisyon ayarlaması */
+        .category-name {
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Alt kategorilerin tablo ile hizalanması */
+        .category-row {
+            position: relative;
+        }
+
+        /* Subcategories'in kategorinin altında düzgün görünmesi için ayarlama */
+        .subcategories {
+            top: 100%; /* Kategorinin hemen altında göster */
+            left: 0;
+            width: auto;
+        }
+    </style>
+}

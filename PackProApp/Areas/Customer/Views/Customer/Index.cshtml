@@ -1,0 +1,17 @@
+﻿ @using Microsoft.Extensions.Localization
+ @inject IStringLocalizer<SharedResource> Localizer
+@model PackProApp.Areas.Customer.Models.CustomerListVM
+
+<h1>Müşteri Bilgileri</h1>
+
+<div>
+    <p><strong>@Localizer["Name :"]</strong> @Model.FirstName</p>
+    <p><strong>@Localizer["Surname :"]</strong> @Model.LastName</p>
+    <p><strong>@Localizer["E-mail :"]</strong> @Model.Email</p>
+    <p><strong>@Localizer["Phone Number :"]</strong> @Model.PhoneNumber</p>
+    <!-- Diğer müşteri bilgilerini burada gösterin -->
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">@Localizer["Edit Profile"]</a>
+</div>

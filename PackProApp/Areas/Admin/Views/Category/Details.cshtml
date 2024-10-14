@@ -1,0 +1,65 @@
+﻿ @using Microsoft.Extensions.Localization
+ @inject IStringLocalizer<SharedResource> Localizer
+
+@model PackProApp.Areas.Admin.Modelss.CategoryVMs.AdminCategoryDetailsVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@Localizer["Details"]</h1>
+
+<div>
+    <h4>@Localizer["Category Details"]</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        @if (Model.ParentCategoryId.HasValue)
+        {
+            <dt class="col-sm-2">
+                @Localizer["Parent Category"]
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ParentCategoryName)
+            </dd>
+        }
+
+        @* Alt Kategoriler *@
+        @if (Model.SubCategories != null && Model.SubCategories.Any())
+        {
+            <dt class="col-sm-2">
+                @Localizer["Subcategories"]           
+                </dt>
+            <dd class="col-sm-10">
+                <ul>
+                    @foreach (var subCategory in Model.SubCategories)
+                    {
+                        <li>
+                            <strong>@subCategory.Name:</strong> @subCategory.Description
+                        </li>
+                    }
+                </ul>
+            </dd>
+        }
+    </dl>
+</div>
+
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    <div class="card-footer text-center">
+        <a asp-action="Index" class="btn btn-secondary">@Localizer["Back to List"]</a>
+    </div>
+</div>

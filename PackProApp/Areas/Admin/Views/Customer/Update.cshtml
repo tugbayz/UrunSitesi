@@ -1,0 +1,119 @@
+﻿ @using Microsoft.Extensions.Localization
+    @inject IStringLocalizer<SharedResource> Localizer
+@model PackProApp.Areas.Admin.Modelss.CustomerVMs.AdminCustomerUpdateVM
+
+@{
+    ViewData["Title"] = "Müşteri Güncelle";
+}
+
+<h1 class="text-center my-4">@Localizer["Update Customer Informations (Admin)"]
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Update" class="border p-4 shadow-sm rounded bg-light">
+                <style>
+                    .invisible-label {
+                        visibility: hidden;
+                    }
+                </style>
+
+                <!-- Hataları göster -->
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <!-- ID Gizli Alanı -->
+                <input asp-for="Id" type="hidden" class="form-control" />
+
+                <!-- İsim -->
+                <div class="form-group mb-3">
+                    <label asp-for="FirstName" class="control-label fw-bold">@Localizer["Name"]</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <!-- Soy İsim -->
+                <div class="form-group mb-3">
+                        <label asp-for="LastName" class="control-label fw-bold">@Localizer["Surname"]</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <!-- E-posta -->
+                <div class="form-group mb-3">
+                        <label asp-for="Email" class="control-label fw-bold">@Localizer["E-mail"]</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Telefon Numarası -->
+                <div class="form-group mb-3">
+                        <label asp-for="PhoneNumber" class="control-label fw-bold">@Localizer["Phone Number"]</label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <!-- Müşteri Tipi Dropdown -->
+                <div class="form-group mb-3">
+                        <label asp-for="CustomerType" class="control-label fw-bold">@Localizer["Customer Type"]</label>
+                    @Html.DropDownListFor(model => model.CustomerType, Enum.GetValues(typeof(PackProApp.Enums.CustomerType)).Cast<PackProApp.Enums.CustomerType>().Select(e => new SelectListItem
+               {
+                   Value = e.ToString(),
+                   Text = e.ToString(),
+                   Selected = e == Model.CustomerType
+               }), "Seçiniz", new { @id = "customerTypeDropdown", @class = "form-select" })
+                    <span asp-validation-for="CustomerType" class="text-danger"></span>
+                </div>
+
+                <!-- Şirket Bilgileri Alanı (Kurumsal müşteriler için) -->
+                <div id="companyInfo" style="display:none;">
+                    <!-- Şirket İsmi -->
+                    <div class="form-group mb-3">
+                            <label asp-for="CompanyName" class="control-label fw-bold">@Localizer["Company Name"]</label>
+                        <input asp-for="CompanyName" class="form-control" />
+                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Vergi Numarası -->
+                    <div class="form-group mb-3">
+                            <label asp-for="VATNumber" class="control-label fw-bold">@Localizer["VAT Number"]</label>
+                        <input asp-for="VATNumber" class="form-control" />
+                        <span asp-validation-for="VATNumber" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Kaydet Butonu -->
+                <div class="form-group mb-3 text-center">
+                        <input type="submit" value=@Localizer["Save"] class="btn btn-primary px-5" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-3">
+        <a asp-action="Index" class="btn btn-secondary">@Localizer["Back to List"]</a>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var customerTypeDropdown = document.getElementById("customerTypeDropdown");
+            var companyInfo = document.getElementById("companyInfo");
+
+            // Şirket bilgilerini göster/gizle
+            function toggleCompanyInfo() {
+                if (customerTypeDropdown.value === "Corporate") {
+                    companyInfo.style.display = "block";
+                } else {
+                    companyInfo.style.display = "none";
+                }
+            }
+
+            // Sayfa yüklendiğinde durumu kontrol et
+            toggleCompanyInfo();
+
+            // Dropdown değiştirildiğinde güncelle
+            customerTypeDropdown.addEventListener("change", toggleCompanyInfo);
+        });
+    </script>
+}

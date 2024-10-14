@@ -1,0 +1,99 @@
+﻿
+@using PackProApp.Enums
+ @using Microsoft.Extensions.Localization
+ @inject IStringLocalizer<SharedResource> Localizer
+@model PackProApp.Areas.Admin.Modelss.CustomerVMs.AdminCustomerCreateVM
+
+@{
+    ViewData["Title"] = "Müşteri Oluştur";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header text-center bg-primary text-white">
+                    <h4>@Localizer["Create Customer (Admin)"]</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" id="customerForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FirstName" class="form-label">@Localizer["Name"]</label>
+                            <input asp-for="FirstName" class="form-control" placeholder=@Localizer["Please enter your name"] />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="LastName" class="form-label">@Localizer["Surname"]</label>
+                            <input asp-for="LastName" class="form-control" placeholder=@Localizer["Please enter your surname"] />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label">@Localizer["E-mail"]</label>
+                            <input asp-for="Email" class="form-control" placeholder=@Localizer["Please enter your e-mail"] />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="PhoneNumber" class="form-label">@Localizer["Phone Number"]</label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder=@Localizer["Please enter your phone number"] />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="CustomerType" class="form-label">@Localizer["Customer Type"]</label>
+                            <select asp-for="CustomerType" class="form-control" asp-items="Html.GetEnumSelectList<CustomerType>()" id="customerTypeSelect"></select>
+                            <span asp-validation-for="CustomerType" class="text-danger"></span>
+                        </div>
+
+                        <!-- CompanyName ve VATNumber alanları, yalnızca Kurumsal müşteri için görünür olacak -->
+                        <div id="corporateFields" style="display: none;">
+                            <div class="form-group mb-3">
+                                <label asp-for="CompanyName" class="form-label">@Localizer["Company Name"]</label>
+                                <input asp-for="CompanyName" class="form-control" placeholder=@Localizer["Enter your company name"] />
+                                <span asp-validation-for="CompanyName" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="VATNumber" class="form-label">@Localizer["VAT Number"]</label>
+                                <input asp-for="VATNumber" class="form-control" placeholder=@Localizer["Please enter your vat number"] />
+                                <span asp-validation-for="VATNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="submit" value="Müşteri Oluştur" class="btn btn-primary w-100" />
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-action="Index" class="btn btn-link">@Localizer["Back to customer list"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Müşteri Türüne göre alanları göster/gizle -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const customerTypeSelect = document.getElementById('customerTypeSelect');
+        const corporateFields = document.getElementById('corporateFields');
+
+        function toggleCorporateFields() {
+            const selectedValue = customerTypeSelect.options[customerTypeSelect.selectedIndex].text.trim();
+            if (selectedValue === 'Corporate') {
+                corporateFields.style.display = 'block';
+            } else {
+                corporateFields.style.display = 'none';
+            }
+        }
+
+        toggleCorporateFields();
+
+        customerTypeSelect.addEventListener('change', toggleCorporateFields);
+    });
+</script>

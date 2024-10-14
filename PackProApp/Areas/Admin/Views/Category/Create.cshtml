@@ -1,0 +1,97 @@
+﻿ @using Microsoft.Extensions.Localization
+ @inject IStringLocalizer<SharedResource> Localizer
+
+ @model PackProApp.Areas.Admin.Modelss.CategoryVMs.AdminCategoryCreateVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>@Localizer["Create"]</h1>
+
+<!-- Ana Kategori Oluşturma -->
+<h4>@Localizer["New Category"]</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">@Localizer["Name"]</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">
+                    @Localizer["Description"]</label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="ParentCategoryId" class="control-label">Parent Category</label>
+                <select asp-for="ParentCategoryId" asp-items="Model.ParentCategories" class="form-control">
+                    <option value="">None</option>
+                </select>
+                <span asp-validation-for="ParentCategoryId" class="text-danger"></span>
+            </div> *@
+
+            <!-- Alt Kategorileri Eklemek İçin -->
+           @*  <h4>Add Subcategories</h4>
+            <div id="subcategories">
+                @for (int i = 0; i < Model.Subcategories.Count; i++)
+                {
+                    <div class="form-group">
+                        <label asp-for="@Model.Subcategories[i].Name" class="control-label">Subcategory Name</label>
+                        <input asp-for="@Model.Subcategories[i].Name" class="form-control" />
+                        <span asp-validation-for="@Model.Subcategories[i].Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Subcategories[i].Description" class="control-label">Subcategory Description</label>
+                        <textarea asp-for="@Model.Subcategories[i].Description" class="form-control"></textarea>
+                        <span asp-validation-for="@Model.Subcategories[i].Description" class="text-danger"></span>
+                    </div>
+                }
+            </div> *@
+
+            @* <div class="form-group">
+                <input type="button" value="Add Subcategory" onclick="addSubcategory()" class="btn btn-secondary" />
+            </div> *@
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+
+            <div class="form-group">
+                <a asp-action="AddSubCategory" class="btn btn-secondary">@Localizer["Add Subcategory"]</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">@Localizer["Back to List"]</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function addSubcategory() {
+            var subcategoryIndex = $('#subcategories > div').length;
+            var subcategoryHtml = `
+                        <div class="form-group">
+                            <label for="Subcategories_${subcategoryIndex}__Name" class="control-label">Subcategory Name</label>
+                            <input id="Subcategories_${subcategoryIndex}__Name" name="Subcategories[${subcategoryIndex}].Name" class="form-control" />
+                            <span class="text-danger" data-valmsg-for="Subcategories[${subcategoryIndex}].Name"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="Subcategories_${subcategoryIndex}__Description" class="control-label">Subcategory Description</label>
+                            <textarea id="Subcategories_${subcategoryIndex}__Description" name="Subcategories[${subcategoryIndex}].Description" class="form-control"></textarea>
+                            <span class="text-danger" data-valmsg-for="Subcategories[${subcategoryIndex}].Description"></span>
+                        </div>`;
+            $('#subcategories').append(subcategoryHtml);
+        }
+    </script>
+}

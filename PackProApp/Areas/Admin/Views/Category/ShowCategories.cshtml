@@ -1,0 +1,55 @@
+﻿@model List<PackProApp.DTOs.CategoryDTOs.CategoryDTO>
+
+<h1>Kategoriler ve Alt Kategoriler</h1>
+
+<!-- Kategoriler Tablosu -->
+<h2>Kategoriler</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Kategori Adı</th>
+            <th>Açıklama</th>
+            <th>Detaylar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.Description</td>
+                <td>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@category.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Alt Kategoriler Tablosu -->
+<h2>Alt Kategoriler</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Alt Kategori Adı</th>
+            <th>Açıklama</th>
+            <th>Ait Olduğu Kategori</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            @if (category.SubCategories.Any())
+            {
+                @foreach (var subCategory in category.SubCategories)
+                {
+                    <tr>
+                        <td>@subCategory.Name</td>
+                        <td>@subCategory.Description</td>
+                        <td>@category.Name</td> <!-- Alt kategorinin ait olduğu ana kategoriyi gösterir -->
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>

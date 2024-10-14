@@ -1,0 +1,371 @@
+﻿ @using Microsoft.Extensions.Localization
+    @inject IStringLocalizer<SharedResource> Localizer
+
+@model IEnumerable<PackProApp.Areas.Admin.Modelss.CustomerVMs.AdminCustomerListVM>
+
+@{
+    ViewData["Title"] = "Müşteri Yönetimi";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Form Elemanları Kartı -->
+            @* <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title">General Form Elements</h5> *@
+
+                    @* <!-- General Form Elements -->
+                    <form>
+                    <div class="row mb-3">
+                    <label for="inputText" class="col-sm-2 col-form-label">Text</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control">
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                    <input type="email" class="form-control">
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                    <input type="password" class="form-control">
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputNumber" class="col-sm-2 col-form-label">Number</label>
+                    <div class="col-sm-10">
+                    <input type="number" class="form-control">
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputFile" class="col-sm-2 col-form-label">File Upload</label>
+                    <div class="col-sm-10">
+                    <input class="form-control" type="file" id="formFile">
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
+                    <div class="col-sm-10">
+                    <input type="date" class="form-control">
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputTime" class="col-sm-2 col-form-label">Time</label>
+                    <div class="col-sm-10">
+                    <input type="time" class="form-control">
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputColor" class="col-sm-2 col-form-label">Color Picker</label>
+                    <div class="col-sm-10">
+                    <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#4154f1" title="Choose your color">
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputTextarea" class="col-sm-2 col-form-label">Textarea</label>
+                    <div class="col-sm-10">
+                    <textarea class="form-control" style="height: 100px"></textarea>
+                    </div>
+                    </div>
+                    <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
+                    <div class="col-sm-10">
+                    <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked="">
+                    <label class="form-check-label" for="gridRadios1">First radio</label>
+                    </div>
+                    <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                    <label class="form-check-label" for="gridRadios2">Second radio</label>
+                    </div>
+                    </div>
+                    </fieldset>
+                    <div class="row mb-3">
+                    <label for="inputCheckbox" class="col-sm-2 col-form-label">Checkboxes</label>
+                    <div class="col-sm-10">
+                    <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                    <label class="form-check-label" for="gridCheck1">Example checkbox</label>
+                    </div>
+                    <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck2" checked="">
+                    <label class="form-check-label" for="gridCheck2">Example checkbox 2</label>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputSelect" class="col-sm-2 col-form-label">Select</label>
+                    <div class="col-sm-10">
+                    <select class="form-select" aria-label="Default select example">
+                    <option selected="">Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    </select>
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <label for="inputMultiSelect" class="col-sm-2 col-form-label">Multi Select</label>
+                    <div class="col-sm-10">
+                    <select class="form-select" multiple="" aria-label="multiple select example">
+                    <option selected="">Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    </select>
+                    </div>
+                    </div>
+                    <div class="row mb-3">
+                    <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-primary">Submit Form</button>
+                    </div>
+                    </div>
+                    </form><!-- End General Form Elements -->
+                    </div>
+                    </div> *@
+
+                    <!-- Müşteri Listesi Kartı -->
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="mb-4">@Localizer["Customer List"]</h1>
+                    <p>
+                        <a class="btn btn-primary mb-3" asp-action="Create">@Localizer["Create Customer"]</a>
+                    </p>
+
+                    <!-- Arama Kutusu -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <input type="text" id="searchInput" class="form-control" placeholder=@Localizer["Search Customer..."] onkeyup="searchTable()" />
+                        </div>
+                    </div>
+
+                    <!-- Sayfalama Seçeneği -->
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <label for="pageSizeSelect">@Localizer["Page Size:"]</label>
+                            <select id="pageSizeSelect" class="form-control" onchange="paginateTable()">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-hover table-striped" id="customerTable">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th onclick="sortTable(0)">@Localizer["Name"]</th>
+                                <th onclick="sortTable(1)">@Localizer["Surname"]</th>
+                                <th onclick="sortTable(2)">@Localizer["E-mail"]</th>
+                                <th onclick="sortTable(3)">@Localizer["Phone Number"]</th>
+                                <th onclick="sortTable(4)">@Localizer["Customer Type"]</th>
+                                <th>@Localizer["Company Name"]</th>
+                                <th>@Localizer["VAT Number"]</th>
+                                <th>@Localizer["Actions"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CustomerType)</td>
+
+                                    <!-- Şirket İsmi: Eğer müşteri tipi 'Individual' ise '-' göster -->
+                                    <td>
+                                        @if (item.CustomerType == PackProApp.Enums.CustomerType.Individual)
+                                        {
+                                            <span>-</span>
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.CompanyName)
+                                        }
+                                    </td>
+
+                                    <style>
+
+                                        .btn-update {
+                                            background-color: #002366; /* Koyu mavi */
+                                            color: white;
+                                        }
+
+                                        .btn-details {
+                                            background-color: #87CEEB; /* Açık mavi */
+                                            color: white;
+                                        }
+
+                                        .btn-delete {
+                                            background-color: #FF0000; /* Kırmızı */
+                                            color: white;
+                                        }
+
+                                        .btn {
+                                            border: none;
+                                            padding: 5px 10px;
+                                            text-align: center;
+                                            text-decoration: none;
+                                            display: inline-block;
+                                            margin: 2px;
+                                            cursor: pointer;
+                                            border-radius: 4px;
+                                        }
+
+                                    </style>
+
+                                    <!-- Vergi Numarası: Eğer müşteri tipi 'Individual' ise '-' göster -->
+                                    <td>
+                                        @if (item.CustomerType == PackProApp.Enums.CustomerType.Individual)
+                                        {
+                                            <span>-</span>
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.VATNumber)
+                                        }
+                                    </td>
+
+
+                                    <td>
+                                        <a class="btn btn-sm btn-update" asp-action="Update" asp-route-customerId="@item.Id">@Localizer["Update"]</a>
+                                        <a class="btn btn-sm btn-details" asp-action="Details" asp-route-customerId="@item.Id">@Localizer["Details"]</a>
+                                        <a class="btn btn-sm btn-delete" asp-action="Delete" asp-route-customerId="@item.Id">@Localizer["Delete"]</a>
+                                    </td>
+
+
+                                   @*  <td>
+                                        <a class="btn btn-sm btn-info" asp-action="Update" asp-route-customerId="@item.Id">@Localizer["Update"]</a>
+                                        <a class="btn btn-sm btn-success" asp-action="Details" asp-route-customerId="@item.Id">@Localizer["Details"]</a>
+                                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-customerId="@item.Id">@Localizer["Delete"]</a>
+                                    </td> *@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                            <!-- Sayfa Numaraları -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center">
+                                            <!-- Sayfa numaralarını dinamik olarak JS'de oluşturacağız -->
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- JS for Sorting, Searching, and Pagination -->
+        <script>
+            function sortTable(columnIndex) {
+                const table = document.getElementById("customerTable");
+                let switching = true, shouldSwitch, i;
+                let dir = "asc", switchcount = 0;
+
+                while (switching) {
+                    switching = false;
+                    const rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        const x = rows[i].getElementsByTagName("TD")[columnIndex];
+                        const y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                        if (dir === "asc") {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir === "desc") {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        switchcount++;
+                    } else {
+                        if (switchcount === 0 && dir === "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+
+            function searchTable() {
+                const input = document.getElementById("searchInput");
+                const filter = input.value.toLowerCase();
+                const table = document.getElementById("customerTable");
+                const rows = table.getElementsByTagName("tr");
+
+                for (let i = 1; i < rows.length; i++) {
+                    let visible = false;
+                    const cols = rows[i].getElementsByTagName("td");
+
+                    for (let j = 0; j < cols.length - 1; j++) {
+                        if (cols[j] && cols[j].innerHTML.toLowerCase().indexOf(filter) > -1) {
+                            visible = true;
+                            break;
+                        }
+                    }
+
+                    if (visible) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+
+            function paginateTable() {
+                const pageSize = parseInt(document.getElementById("pageSizeSelect").value);
+                const table = document.getElementById("customerTable");
+                const rows = table.getElementsByTagName("tr");
+                const pagination = document.querySelector(".pagination");
+
+                let pageCount = Math.ceil((rows.length - 1) / pageSize);
+                let pageHtml = "";
+
+                for (let i = 1; i <= pageCount; i++) {
+                    pageHtml += `<li class="page-item"><a class="page-link" href="#" onclick="showPage(${i}, ${pageSize})">${i}</a></li>`;
+                }
+
+                pagination.innerHTML = pageHtml;
+
+                // Default to show first page
+                showPage(1, pageSize);
+            }
+
+            function showPage(page, pageSize) {
+                const table = document.getElementById("customerTable");
+                const rows = table.getElementsByTagName("tr");
+
+                for (let i = 1; i < rows.length; i++) {
+                    if (i <= page * pageSize && i > (page - 1) * pageSize) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+
+            // Initialize pagination
+            document.addEventListener('DOMContentLoaded', function () {
+                paginateTable();
+            });
+        </script>

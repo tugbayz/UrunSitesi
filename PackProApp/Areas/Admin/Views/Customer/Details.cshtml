@@ -1,0 +1,65 @@
+﻿@model PackProApp.Areas.Admin.Modelss.CustomerVMs.AdminCustomerDetailVM
+ @using Microsoft.Extensions.Localization
+    @inject IStringLocalizer<SharedResource> Localizer
+
+@{
+    ViewData["Title"] = "Müşteri Detayları";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>@Localizer["Customer Details (Admin)"]</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Localizer["Name"]</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.FirstName)</dd>
+
+                        <dt class="col-sm-4">@Localizer["Surname"]</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.LastName)</dd>
+
+                        <dt class="col-sm-4">@Localizer["E-mail"]</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+
+                        <dt class="col-sm-4">@Localizer["Phone Number"]</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.PhoneNumber)</dd>
+
+                        <dt class="col-sm-4">@Localizer["Customer Type"]</dt>
+                        <dd class="col-sm-8" id="customerType">@Html.DisplayFor(model => model.CustomerType)</dd>
+
+                        <!-- Şirket adı ve vergi numarası: yalnızca kurumsal müşteri için gösterilecek -->
+                        <dt class="col-sm-4 corporate-field" style="display:none;">@Localizer["Company Name"]</dt>
+                        <dd class="col-sm-8 corporate-field" style="display:none;">@Html.DisplayFor(model => model.CompanyName)</dd>
+
+                        <dt class="col-sm-4 corporate-field" style="display:none;">@Localizer["VAT Number"]</dt>
+                        <dd class="col-sm-8 corporate-field" style="display:none;">@Html.DisplayFor(model => model.VATNumber)</dd>
+                    </dl>
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-action="Index" class="btn btn-secondary">@Localizer["Back to List"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const customerType = document.getElementById('customerType').innerText.trim();
+        const corporateFields = document.querySelectorAll('.corporate-field');
+
+        // Eğer müşteri türü 'Kurumsal' ise, şirket ve vergi numarası alanlarını göster
+        if (customerType === 'Corporate') {
+            corporateFields.forEach(function (field) {
+                field.style.display = 'block';
+            });
+        } else {
+            corporateFields.forEach(function (field) {
+                field.style.display = 'none';
+            });
+        }
+    });
+</script>

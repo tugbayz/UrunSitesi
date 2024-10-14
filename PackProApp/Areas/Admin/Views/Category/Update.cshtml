@@ -1,0 +1,59 @@
+﻿ @using Microsoft.Extensions.Localization
+ @inject IStringLocalizer<SharedResource> Localizer
+@model PackProApp.Areas.Admin.Modelss.CategoryVMs.AdminCategoryUpdateVM
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>@Localizer["Update Category"]</h1>
+
+<form asp-action="Update">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">@Localizer["Name"]</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">@Localizer["Description"]</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <!-- Ana kategori seçimi -->
+    <div class="form-group">
+        <label for="ParentCategoryId">@Localizer["Parent Category"]</label>
+        <select asp-for="ParentCategoryId" asp-items="Model.ParentCategories" class="form-control">
+            <option value="">@Localizer["None"]</option>
+        </select>
+    </div>
+
+    <!-- Alt Kategorilerin Güncellenmesi -->
+    @* <h4>@Localizer["Subcategories"]</h4> *@
+    <div id="subcategories">
+        @for (int i = 0; i < Model.SubCategories.Count; i++)
+        {
+            <div class="form-group">
+                @* <label for="SubCategories_@(i)__Name">@Localizer["Subcategory Name"]</label>
+                <input id="SubCategories_@(i)__Name" name="SubCategories[@(i)].Name" value="@Model.SubCategories[i].Name" class="form-control" /> *@
+                <span asp-validation-for="SubCategories[(i)].Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+              @*   <label for="SubCategories_@(i)__Description">@Localizer["Subcategory Description"]</label>
+                <textarea id="SubCategories_@(i)__Description" name="SubCategories[@(i)].Description" class="form-control">@Model.SubCategories[i].Description</textarea> *@
+                <span asp-validation-for="SubCategories[(i)].Description" class="text-danger"></span>
+            </div>
+        }
+
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Update" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">@Localizer["Back to List"]</a>
+</div>

@@ -1,0 +1,68 @@
+﻿ @using Microsoft.Extensions.Localization
+ @inject IStringLocalizer<SharedResource> Localizer
+ @model IEnumerable<PackProApp.Areas.Admin.Modelss.ProductVMs.AdminProductListVM> 
+
+
+
+<div class="container">
+    <h2>@Localizer["Products"]</h2>
+
+    <!-- Arama Kutusu -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <input type="text" id="searchInput" class="form-control" placeholder=@Localizer["Search by category..."] onkeyup="searchProducts()" />
+        </div>
+    </div>
+
+    <!-- Ürün Kartları -->
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var product in Model)
+            {
+                <div class="col-md-4 col-sm-6 mb-4 product-card">
+                    <div class="card h-100 text-center">
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(product.Image)" alt="Product Image" class="img-fluid" />
+
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">Price: @product.Price.ToString("C")</p>
+                            <p class="categoryName">Category: @product.CategoryName</p> <!-- Kategori alanına 'categoryName' sınıfı eklendi -->
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <p class="text-center">@Localizer["No products available"]</p>
+            </div>
+        }
+    </div>
+
+
+   
+</div>
+
+<!-- JavaScript ile Arama Fonksiyonu -->
+<script>
+    function searchProducts() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toLowerCase(); // Arama terimini küçük harfe çevir
+        const productCards = document.getElementsByClassName("product-card");
+
+        // Tüm ürün kartlarını kontrol et
+        for (let i = 0; i < productCards.length; i++) {
+            // Her ürünün kategori adını al
+            let productCategory = productCards[i].getElementsByClassName("categoryName")[0].innerText.toLowerCase();
+
+            // Eğer kategori ismi arama kutusundaki metni içeriyorsa, ürünü göster; aksi takdirde gizle
+            if (productCategory.includes(filter)) {
+                productCards[i].style.display = "";
+            } else {
+                productCards[i].style.display = "none";
+            }
+        }
+    }
+</script>

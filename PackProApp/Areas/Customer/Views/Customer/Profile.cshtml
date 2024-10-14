@@ -1,0 +1,10 @@
+﻿ @using Microsoft.Extensions.Localization
+ @inject IStringLocalizer<SharedResource> Localizer
+@model PackProApp.Areas.Customer.Models.CustomerListVM
+
+<h2>@Localizer["Profile Informations"]</h2>
+
+<p><strong>@Localizer["Name :"]</strong> @Model.FirstName</p>
+<p><strong>@Localizer["Surname :"]</strong> @Model.LastName</p>
+<p><strong>@Localizer["Phone Number :"]</strong> @Model.PhoneNumber</p>
+<p><strong>@Localizer["E-mail :"]</strong> @Model.Email</p>

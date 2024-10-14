@@ -1,0 +1,37 @@
+﻿@model PackProApp.Areas.Admin.Modelss.AdminVM.AdminListVM
+ @using Microsoft.Extensions.Localization
+    @inject IStringLocalizer<SharedResource> Localizer
+<div class="container">
+
+    <div class="text-center">
+        <h1 class="display-4"></h1> 
+    </div>
+
+    <!-- Ürünler Başlığı -->
+    <h2>@Localizer["Products"]</h2>
+
+    <div class="row">
+        @if (Model.Products != null && Model.Products.Any())
+        {
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="data:image/jpeg;base64,@product.ImageBase64" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;">
+
+                       @*  <img src="assets/img/card.jpg" class="card-img-top" alt="Ürün Resmi"> *@
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">Fiyat: @product.Price.ToString("C")</p>
+                            <p class="card-text">Kategori: @product.CategoryName</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>@Localizer["No products found"]</p>
+        }
+    </div>
+</div>

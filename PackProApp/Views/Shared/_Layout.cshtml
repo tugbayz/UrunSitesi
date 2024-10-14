@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PackProApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PackProApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container d-flex justify-content-end">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        @* <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Customer" asp-action="Index">Customer</a> *@
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Logoyu sabit olarak ekledik -->
+    <div class="logo-container">
+        <div class="logo-icon"></div>
+        <div class="logo-text">PackPro</div>
+    </div>
+
+    <div class="container body-content py-5">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+  
+
+
+ @*    <footer class="border-top footer text-muted py-3">
+        <div class="container text-center">
+            &copy; 2024 - PackProApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer> *@
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf");
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+<style>
+
+
+
+    /* Logo için CSS kodları */
+    .logo-container {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .logo-icon {
+        width: 40px;
+        height: 40px;
+        background-color: #2c3e50;
+        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    }
+
+        .logo-icon:before {
+            content: 'P';
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+        }
+
+    .logo-text {
+        font-size: 32px;
+        font-weight: bold;
+        color: #2c3e50;
+        letter-spacing: 1px;
+    }
+
+    .navbar {
+        padding: 0.5rem 0;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 18px;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+    }
+
+        .navbar-nav .nav-link:hover {
+            color: #2c3e50;
+        }
+
+    .body-content {
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    footer {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+    }
+
+        footer a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+            footer a:hover {
+                text-decoration: underline;
+            }
+</style>
